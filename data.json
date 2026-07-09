@@ -1,0 +1,1106 @@
+{
+  "metadata": {
+    "title": "2026 AI Agent Ecosystem Concept Graph",
+    "title_zh": "2026年AI Agent生态系统概念图",
+    "description": "A force-directed graph of the AI Agent ecosystem in 2026, showing relationships between frameworks, protocols, concepts, infrastructure, and major players.",
+    "version": "1.0.0",
+    "date": "2026-07",
+    "categories": {
+      "framework": { "label": "Agent Framework", "label_zh": "Agent框架", "color": "#4A90D9", "shape": "circle" },
+      "protocol": { "label": "Protocol", "label_zh": "协议", "color": "#E67E22", "shape": "diamond" },
+      "concept": { "label": "Key Concept", "label_zh": "核心概念", "color": "#2ECC71", "shape": "triangle" },
+      "infrastructure": { "label": "Infrastructure", "label_zh": "基础设施", "color": "#9B59B6", "shape": "square" },
+      "player": { "label": "Major Player", "label_zh": "主要玩家", "color": "#E74C3C", "shape": "star" },
+      "model": { "label": "LLM / Model", "label_zh": "大语言模型", "color": "#1ABC9C", "shape": "circle" },
+      "database": { "label": "Vector Database", "label_zh": "向量数据库", "color": "#F39C12", "shape": "hexagon" },
+      "application": { "label": "Application", "label_zh": "应用", "color": "#3498DB", "shape": "circle" }
+    }
+  },
+  "nodes": [
+    {
+      "id": "langchain",
+      "name": "LangChain",
+      "name_zh": "LangChain",
+      "category": "framework",
+      "description": "The most widely-adopted Python/JS framework for building LLM-powered applications with chains, agents, and retrieval pipelines. By 2026, LangChain v0.3+ has matured into a stable ecosystem with LangGraph as its primary agent orchestration layer.",
+      "description_zh": "最广泛采用的Python/JS框架，用于构建LLM驱动的应用，包含链、Agent和检索管道。2026年，LangChain v0.3+已发展为以LangGraph为核心Agent编排层的成熟生态系统。",
+      "year": "2022",
+      "url": "https://github.com/langchain-ai/langchain",
+      "relationships": [
+        { "target": "langgraph", "label": "orchestration layer", "type": "contains" },
+        { "target": "mcp", "label": "tool integration", "type": "uses" },
+        { "target": "rag", "label": "retrieval pipeline", "type": "implements" },
+        { "target": "openai", "label": "primary LLM", "type": "integrates_with" },
+        { "target": "anthropic", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "google", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "chroma", "label": "default vector store", "type": "integrates_with" },
+        { "target": "pinecone", "label": "vector store", "type": "integrates_with" },
+        { "target": "embedding", "label": "text representation", "type": "uses" },
+        { "target": "memory", "label": "state management", "type": "implements" },
+        { "target": "multi_agent", "label": "agent patterns", "type": "implements" },
+        { "target": "function_calling", "label": "tool dispatch", "type": "uses" }
+      ],
+      "size": 40
+    },
+    {
+      "id": "langgraph",
+      "name": "LangGraph",
+      "name_zh": "LangGraph",
+      "category": "framework",
+      "description": "LangChain's state-machine-based agent orchestration framework. Supports cycles, branching, human-in-the-loop, and persistent state. By 2026, the de facto standard for complex agent workflows in the LangChain ecosystem.",
+      "description_zh": "LangChain基于状态机的Agent编排框架。支持循环、分支、人机协作和持久状态。2026年已成为LangChain生态系统中复杂Agent工作流的事实标准。",
+      "year": "2024",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "relationships": [
+        { "target": "langchain", "label": "part of ecosystem", "type": "part_of" },
+        { "target": "orchestration", "label": "state-machine orchestration", "type": "implements" },
+        { "target": "planning", "label": "agent planning", "type": "implements" },
+        { "target": "multi_agent", "label": "multi-agent graphs", "type": "implements" },
+        { "target": "memory", "label": "checkpointed state", "type": "implements" },
+        { "target": "mcp", "label": "tool protocol", "type": "uses" }
+      ],
+      "size": 32
+    },
+    {
+      "id": "crewai",
+      "name": "CrewAI",
+      "name_zh": "CrewAI",
+      "category": "framework",
+      "description": "A role-based multi-agent framework that models agent collaboration as a 'crew' with defined roles, goals, and backstories. Popular for building teams of specialized AI agents. By 2026, CrewAI Enterprise offers production deployment with memory and human oversight.",
+      "description_zh": "基于角色的多Agent框架，将Agent协作建模为具有定义角色、目标和背景故事的'团队'。到2026年，CrewAI Enterprise提供带有记忆和人工监督的生产部署。",
+      "year": "2024",
+      "url": "https://github.com/crewAIInc/crewAI",
+      "relationships": [
+        { "target": "multi_agent", "label": "role-based collaboration", "type": "implements" },
+        { "target": "orchestration", "label": "agent orchestration", "type": "implements" },
+        { "target": "planning", "label": "task planning", "type": "implements" },
+        { "target": "memory", "label": "crew memory", "type": "implements" },
+        { "target": "openai", "label": "default LLM", "type": "integrates_with" },
+        { "target": "mcp", "label": "tool integration", "type": "uses" },
+        { "target": "function_calling", "label": "tool dispatch", "type": "uses" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "autogen",
+      "name": "AutoGen",
+      "name_zh": "AutoGen (微软)",
+      "category": "framework",
+      "description": "Microsoft's multi-agent conversation framework. AutoGen v0.4 (AG2) redesigned around an event-driven actor model. Enables complex multi-agent debates, code execution, and tool use. By 2026, widely used in enterprise settings with Azure integration.",
+      "description_zh": "微软的多Agent对话框架。AutoGen v0.4 (AG2) 围绕事件驱动的Actor模型重新设计。支持复杂的多Agent辩论、代码执行和工具使用。2026年，通过Azure集成在企业环境中广泛使用。",
+      "year": "2023",
+      "url": "https://github.com/microsoft/autogen",
+      "relationships": [
+        { "target": "multi_agent", "label": "conversation-based multi-agent", "type": "implements" },
+        { "target": "orchestration", "label": "agent orchestration", "type": "implements" },
+        { "target": "openai", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "microsoft", "label": "maintained by", "type": "maintained_by" },
+        { "target": "azure_openai", "label": "cloud deployment", "type": "integrates_with" },
+        { "target": "function_calling", "label": "tool use", "type": "uses" },
+        { "target": "planning", "label": "agent planning", "type": "implements" },
+        { "target": "memory", "label": "conversation history", "type": "implements" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "claude_code",
+      "name": "Claude Code",
+      "name_zh": "Claude Code (Anthropic)",
+      "category": "framework",
+      "description": "Anthropic's agentic coding tool and agent framework. An agentic terminal-based assistant that can read, write, and execute code. In 2026, Claude Code represents the leading model of an LLM-native agent that operates directly in the developer's environment via CLI.",
+      "description_zh": "Anthropic的Agentic编码工具和Agent框架。一个基于终端的Agentic助手，可以读取、编写和执行代码。2026年，Claude Code代表了通过CLI在开发者环境中直接运行的LLM原生Agent的领先模式。",
+      "year": "2025",
+      "url": "https://github.com/anthropics/claude-code",
+      "relationships": [
+        { "target": "anthropic", "label": "built by", "type": "built_by" },
+        { "target": "claude", "label": "powered by", "type": "powered_by" },
+        { "target": "mcp", "label": "tool integration protocol", "type": "uses" },
+        { "target": "agentic_coding", "label": "agentic coding", "type": "implements" },
+        { "target": "tool_use", "label": "file/code tool use", "type": "uses" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes Agent",
+      "name_zh": "Hermes Agent (Nous Research)",
+      "category": "framework",
+      "description": "An open-source intelligent AI agent by Nous Research. Hermes runs on local or cloud LLMs with plugin-based skills, memory, cron scheduling, and MCP tool integration. Designed as a personal AI assistant with deep system integration.",
+      "description_zh": "Nous Research的开源智能AI Agent。Hermes在本地或云端LLM上运行，具有基于插件的技能、记忆、定时任务和MCP工具集成。设计为具有深度系统集成的个人AI助手。",
+      "year": "2025",
+      "url": "https://hermes-agent.nousresearch.com",
+      "relationships": [
+        { "target": "nous_research", "label": "built by", "type": "built_by" },
+        { "target": "mcp", "label": "core tool protocol", "type": "uses" },
+        { "target": "memory", "label": "persistent memory", "type": "implements" },
+        { "target": "open_source", "label": "open source community", "type": "part_of" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "openai_agents_sdk",
+      "name": "OpenAI Agents SDK",
+      "name_zh": "OpenAI Agents SDK (OpenAI)",
+      "category": "framework",
+      "description": "OpenAI's official lightweight SDK for building agentic applications. Supports tool calling, multi-agent handoffs, guardrails, and tracing. Succeeded the experimental Swarm framework. By 2026, tightly integrated with the OpenAI API platform and Assistants API.",
+      "description_zh": "OpenAI官方的轻量级SDK，用于构建Agentic应用。支持工具调用、多Agent交接、防护栏和追踪。2026年，与OpenAI API平台和Assistants API紧密集成。",
+      "year": "2025",
+      "url": "https://github.com/openai/openai-agents-python",
+      "relationships": [
+        { "target": "openai", "label": "built by", "type": "built_by" },
+        { "target": "gpt4o", "label": "primary model", "type": "powered_by" },
+        { "target": "o3", "label": "reasoning model", "type": "powered_by" },
+        { "target": "function_calling", "label": "native tool calling", "type": "uses" },
+        { "target": "mcp", "label": "tool protocol support", "type": "uses" },
+        { "target": "multi_agent", "label": "agent handoffs", "type": "implements" },
+        { "target": "guardrails", "label": "input/output validation", "type": "implements" }
+      ],
+      "size": 33
+    },
+    {
+      "id": "google_adk",
+      "name": "Google Agent Development Kit",
+      "name_zh": "Google Agent开发工具包",
+      "category": "framework",
+      "description": "Google's open-source framework for building, deploying, and orchestrating AI agents. Natively integrates with Gemini models, A2A protocol, and Google Cloud services. Includes built-in support for multi-agent systems and evaluation.",
+      "description_zh": "Google的开源框架，用于构建、部署和编排AI Agent。与Gemini模型、A2A协议和Google Cloud服务原生集成。包括对多Agent系统和评估的内置支持。",
+      "year": "2025",
+      "url": "https://github.com/google/adk-python",
+      "relationships": [
+        { "target": "google", "label": "built by", "type": "built_by" },
+        { "target": "gemini", "label": "primary model", "type": "powered_by" },
+        { "target": "a2a", "label": "native protocol", "type": "uses" },
+        { "target": "mcp", "label": "tool protocol", "type": "uses" },
+        { "target": "multi_agent", "label": "multi-agent orchestration", "type": "implements" },
+        { "target": "orchestration", "label": "agent orchestration", "type": "implements" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "agno",
+      "name": "Agno (formerly PhiData)",
+      "name_zh": "Agno (原PhiData)",
+      "category": "framework",
+      "description": "A lightweight, high-performance agent framework focused on speed and simplicity. Known for building agents in minimal code. Supports memory, knowledge bases, and tool use. By 2026, popular for rapid prototyping.",
+      "description_zh": "专注于速度和简洁性的轻量级高性能Agent框架。以最少代码构建Agent著称。支持记忆、知识库和工具使用。2026年，因其快速原型开发而广受欢迎。",
+      "year": "2024",
+      "url": "https://github.com/agno-agi/agno",
+      "relationships": [
+        { "target": "openai", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "anthropic", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "memory", "label": "agent memory", "type": "implements" },
+        { "target": "rag", "label": "knowledge retrieval", "type": "implements" },
+        { "target": "function_calling", "label": "tool use", "type": "uses" }
+      ],
+      "size": 22
+    },
+    {
+      "id": "llamaindex",
+      "name": "LlamaIndex",
+      "name_zh": "LlamaIndex",
+      "category": "framework",
+      "description": "A data framework for connecting LLMs with external data. Specializes in RAG (Retrieval-Augmented Generation), offering indexing, querying, and agent capabilities over private data. By 2026, the leading framework for data-centric AI applications.",
+      "description_zh": "将LLM与外部数据连接的数据框架。专门从事RAG（检索增强生成），提供对私有数据的索引、查询和Agent能力。2026年，是以数据为中心的AI应用的领先框架。",
+      "year": "2022",
+      "url": "https://github.com/run-llama/llama_index",
+      "relationships": [
+        { "target": "rag", "label": "core capability", "type": "implements" },
+        { "target": "embedding", "label": "text embedding", "type": "uses" },
+        { "target": "vector_db", "label": "vector storage", "type": "uses" },
+        { "target": "chroma", "label": "vector store", "type": "integrates_with" },
+        { "target": "pinecone", "label": "vector store", "type": "integrates_with" },
+        { "target": "qdrant", "label": "vector store", "type": "integrates_with" },
+        { "target": "openai", "label": "LLM/embedding provider", "type": "integrates_with" },
+        { "target": "memory", "label": "context management", "type": "implements" },
+        { "target": "mcp", "label": "tool protocol", "type": "uses" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "dify",
+      "name": "Dify",
+      "name_zh": "Dify",
+      "category": "framework",
+      "description": "An open-source LLM application development platform with a visual workflow builder. Supports RAG, agent capabilities, model management, and production monitoring. By 2026, one of the most popular no-code/low-code AI agent builders, especially in the Chinese ecosystem.",
+      "description_zh": "具有可视化工作流构建器的开源LLM应用开发平台。支持RAG、Agent能力、模型管理和生产监控。2026年，是最流行的无代码/低代码AI Agent构建器之一，尤其在中国生态系统中。",
+      "year": "2023",
+      "url": "https://github.com/langgenius/dify",
+      "relationships": [
+        { "target": "rag", "label": "RAG pipeline", "type": "implements" },
+        { "target": "orchestration", "label": "visual workflow", "type": "implements" },
+        { "target": "openai", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "anthropic", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "embedding", "label": "embedding support", "type": "uses" },
+        { "target": "vector_db", "label": "vector storage", "type": "uses" },
+        { "target": "open_source", "label": "community-driven", "type": "part_of" },
+        { "target": "multi_agent", "label": "agent workflows", "type": "implements" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "comfyui",
+      "name": "ComfyUI",
+      "name_zh": "ComfyUI",
+      "category": "framework",
+      "description": "A node-based visual workflow tool primarily for image/video generation with Stable Diffusion, but increasingly used as an agent-like orchestration tool for AI workflows in 2026.",
+      "description_zh": "基于节点的可视化工作流工具，主要用于Stable Diffusion图像/视频生成，但到2026年越来越多地用作AI工作流的类Agent编排工具。",
+      "year": "2023",
+      "url": "https://github.com/comfyanonymous/ComfyUI",
+      "relationships": [
+        { "target": "open_source", "label": "open source", "type": "part_of" }
+      ],
+      "size": 18
+    },
+    {
+      "id": "smolagents",
+      "name": "SmolAgents",
+      "name_zh": "SmolAgents (HuggingFace)",
+      "category": "framework",
+      "description": "HuggingFace's minimalist agent framework focusing on code-generating agents that write and execute Python code as their primary tool-use mechanism. Lightweight and easy to extend.",
+      "description_zh": "HuggingFace的极简Agent框架，专注于以编写和执行Python代码作为主要工具使用机制的代码生成Agent。轻量级且易于扩展。",
+      "year": "2024",
+      "url": "https://github.com/huggingface/smolagents",
+      "relationships": [
+        { "target": "huggingface", "label": "built by", "type": "built_by" },
+        { "target": "open_source", "label": "open source", "type": "part_of" },
+        { "target": "function_calling", "label": "code as tools", "type": "uses" },
+        { "target": "openai", "label": "LLM provider", "type": "integrates_with" },
+        { "target": "anthropic", "label": "LLM provider", "type": "integrates_with" }
+      ],
+      "size": 20
+    },
+    {
+      "id": "mcp",
+      "name": "Model Context Protocol (MCP)",
+      "name_zh": "模型上下文协议 (MCP)",
+      "category": "protocol",
+      "description": "Anthropic's open protocol for connecting AI assistants to external tools, data sources, and services. By 2026, the dominant standard for tool integration, adopted by virtually all major AI platforms. Defines a client-server architecture where AI models (clients) connect to tool/data providers (servers).",
+      "description_zh": "Anthropic的开放协议，用于将AI助手连接到外部工具、数据源和服务。2026年，已成为工具集成的主导标准，被几乎所有主要AI平台采用。定义了一个客户端-服务器架构，其中AI模型（客户端）连接到工具/数据提供者（服务器）。",
+      "year": "2024",
+      "url": "https://modelcontextprotocol.io",
+      "relationships": [
+        { "target": "anthropic", "label": "created by", "type": "created_by" },
+        { "target": "claude", "label": "first adopter", "type": "used_by" },
+        { "target": "langchain", "label": "tool integration", "type": "used_by" },
+        { "target": "openai_agents_sdk", "label": "tool protocol", "type": "used_by" },
+        { "target": "claude_code", "label": "core protocol", "type": "used_by" },
+        { "target": "hermes", "label": "tool protocol", "type": "used_by" },
+        { "target": "cursor", "label": "IDE integration", "type": "used_by" },
+        { "target": "vscode", "label": "IDE integration", "type": "used_by" },
+        { "target": "google_adk", "label": "tool protocol", "type": "used_by" },
+        { "target": "function_calling", "label": "complements", "type": "related_to" }
+      ],
+      "size": 40
+    },
+    {
+      "id": "a2a",
+      "name": "Agent-to-Agent Protocol (A2A)",
+      "name_zh": "Agent间通信协议 (A2A)",
+      "category": "protocol",
+      "description": "Google's open protocol enabling AI agents to discover, communicate, and collaborate with each other across different frameworks and platforms. Complements MCP (agent-to-tool) by enabling agent-to-agent communication. Backed by 50+ partners including Salesforce, SAP, and Accenture.",
+      "description_zh": "Google的开放协议，使AI Agent能够在不同框架和平台之间发现、通信和协作。通过启用Agent间通信来补充MCP（Agent到工具）。由Salesforce、SAP和Accenture等50多家合作伙伴支持。",
+      "year": "2025",
+      "url": "https://github.com/google/A2A",
+      "relationships": [
+        { "target": "google", "label": "created by", "type": "created_by" },
+        { "target": "google_adk", "label": "native support", "type": "used_by" },
+        { "target": "mcp", "label": "complementary protocol", "type": "related_to" },
+        { "target": "multi_agent", "label": "cross-agent communication", "type": "implements" },
+        { "target": "openai_agents_sdk", "label": "adopted", "type": "used_by" },
+        { "target": "langchain", "label": "adopted", "type": "used_by" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "function_calling",
+      "name": "Function Calling / Tool Use",
+      "name_zh": "函数调用 / 工具使用",
+      "category": "protocol",
+      "description": "The fundamental mechanism by which LLMs invoke external functions, APIs, and tools. Standardized across major providers (OpenAI, Anthropic, Google). By 2026, all production LLMs support structured tool calling natively, forming the bedrock of agent capabilities.",
+      "description_zh": "LLM调用外部函数、API和工具的基本机制。在主要提供商（OpenAI、Anthropic、Google）之间标准化。2026年，所有生产级LLM都原生支持结构化工具调用，构成Agent能力的基石。",
+      "year": "2023",
+      "relationships": [
+        { "target": "openai", "label": "pioneered", "type": "used_by" },
+        { "target": "anthropic", "label": "tool use API", "type": "used_by" },
+        { "target": "google", "label": "function calling", "type": "used_by" },
+        { "target": "mcp", "label": "enhanced by", "type": "related_to" },
+        { "target": "langchain", "label": "core mechanism", "type": "used_by" },
+        { "target": "tool_use", "label": "superset concept", "type": "related_to" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "tool_use",
+      "name": "Tool Use",
+      "name_zh": "工具使用",
+      "category": "concept",
+      "description": "The broader concept of AI agents using external tools (code execution, web search, file systems, APIs, databases) to accomplish tasks. Function calling is the technical mechanism; tool use is the conceptual paradigm.",
+      "description_zh": "AI Agent使用外部工具（代码执行、网页搜索、文件系统、API、数据库）来完成任务的更广泛概念。函数调用是技术机制；工具使用是概念范式。",
+      "year": "2023",
+      "relationships": [
+        { "target": "function_calling", "label": "technical mechanism", "type": "implements" },
+        { "target": "mcp", "label": "standardized by", "type": "implemented_by" },
+        { "target": "rag", "label": "retrieval as tool", "type": "related_to" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "rag",
+      "name": "RAG (Retrieval-Augmented Generation)",
+      "name_zh": "RAG (检索增强生成)",
+      "category": "concept",
+      "description": "The technique of augmenting LLM responses by retrieving relevant information from external knowledge sources before generation. By 2026, advanced RAG includes agentic RAG, graph RAG, and multi-modal RAG. The foundational pattern for enterprise AI applications.",
+      "description_zh": "在生成之前从外部知识源检索相关信息来增强LLM响应的技术。2026年，高级RAG包括Agentic RAG、图RAG和多模态RAG。企业AI应用的基础模式。",
+      "year": "2020",
+      "relationships": [
+        { "target": "embedding", "label": "semantic search", "type": "uses" },
+        { "target": "vector_db", "label": "vector storage", "type": "uses" },
+        { "target": "llamaindex", "label": "RAG framework", "type": "implemented_by" },
+        { "target": "langchain", "label": "RAG pipeline", "type": "implemented_by" },
+        { "target": "dify", "label": "RAG platform", "type": "implemented_by" },
+        { "target": "tool_use", "label": "retrieval as tool", "type": "related_to" },
+        { "target": "memory", "label": "external memory", "type": "related_to" },
+        { "target": "openai", "label": "retrieval API", "type": "supported_by" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "memory",
+      "name": "Memory",
+      "name_zh": "记忆",
+      "category": "concept",
+      "description": "Mechanisms for AI agents to retain, recall, and manage information across interactions. Includes short-term (conversation context), long-term (persistent storage), and episodic memory. By 2026, memory is a core differentiator for production agents, with solutions like Mem0 and native framework support.",
+      "description_zh": "AI Agent跨交互保留、回忆和管理信息的机制。包括短期（对话上下文）、长期（持久存储）和情景记忆。到2026年，记忆是生产Agent的核心差异化因素，有Mem0等解决方案和框架原生支持。",
+      "year": "2023",
+      "relationships": [
+        { "target": "langchain", "label": "memory modules", "type": "implemented_by" },
+        { "target": "langgraph", "label": "checkpointed state", "type": "implemented_by" },
+        { "target": "crewai", "label": "crew memory", "type": "implemented_by" },
+        { "target": "rag", "label": "external knowledge", "type": "related_to" },
+        { "target": "vector_db", "label": "memory storage", "type": "uses" },
+        { "target": "embedding", "label": "memory retrieval", "type": "uses" },
+        { "target": "mem0", "label": "memory layer", "type": "implemented_by" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "planning",
+      "name": "Planning",
+      "name_zh": "规划",
+      "category": "concept",
+      "description": "The ability of AI agents to decompose complex tasks into steps, create execution plans, and adapt when plans fail. Includes ReAct (reasoning + acting), chain-of-thought, tree-of-thought, and plan-and-execute patterns. By 2026, planning is increasingly handled by reasoning models (o3, Claude).",
+      "description_zh": "AI Agent将复杂任务分解为步骤、创建执行计划并在计划失败时适应的能力。包括ReAct（推理+行动）、思维链、思维树和计划-执行模式。2026年，规划越来越多地由推理模型（o3、Claude）处理。",
+      "year": "2022",
+      "relationships": [
+        { "target": "langgraph", "label": "plan execution", "type": "implemented_by" },
+        { "target": "crewai", "label": "task planning", "type": "implemented_by" },
+        { "target": "autogen", "label": "planning", "type": "implemented_by" },
+        { "target": "o3", "label": "reasoning model", "type": "enhanced_by" },
+        { "target": "claude", "label": "extended thinking", "type": "enhanced_by" }
+      ],
+      "size": 28
+    },
+    {
+      "id": "multi_agent",
+      "name": "Multi-Agent Systems",
+      "name_zh": "多Agent系统",
+      "category": "concept",
+      "description": "Architectures where multiple AI agents collaborate, debate, or divide work to solve complex problems. By 2026, multi-agent systems have matured from research to production, with frameworks like CrewAI, AutoGen, and LangGraph providing ready-to-use patterns. Key patterns: supervisor, hierarchical, swarm, debate.",
+      "description_zh": "多个AI Agent协作、辩论或分工来解决复杂问题的架构。到2026年，多Agent系统已从研究发展到生产，CrewAI、AutoGen和LangGraph等框架提供即用模式。关键模式：监督者、层级、群体、辩论。",
+      "year": "2023",
+      "relationships": [
+        { "target": "crewai", "label": "role-based multi-agent", "type": "implemented_by" },
+        { "target": "autogen", "label": "conversation multi-agent", "type": "implemented_by" },
+        { "target": "langgraph", "label": "graph-based multi-agent", "type": "implemented_by" },
+        { "target": "a2a", "label": "cross-agent protocol", "type": "implemented_by" },
+        { "target": "google_adk", "label": "multi-agent support", "type": "implemented_by" },
+        { "target": "orchestration", "label": "coordination mechanism", "type": "uses" }
+      ],
+      "size": 32
+    },
+    {
+      "id": "orchestration",
+      "name": "Orchestration",
+      "name_zh": "编排",
+      "category": "concept",
+      "description": "The coordination and management of agent workflows, including task routing, error handling, human-in-the-loop checkpoints, and pipeline management. By 2026, orchestration patterns include DAG-based (LangGraph), role-based (CrewAI), and event-driven (AutoGen).",
+      "description_zh": "Agent工作流的协调和管理，包括任务路由、错误处理、人机协作检查点和管道管理。到2026年，编排模式包括基于DAG（LangGraph）、基于角色（CrewAI）和事件驱动（AutoGen）。",
+      "year": "2023",
+      "relationships": [
+        { "target": "langgraph", "label": "graph orchestration", "type": "implemented_by" },
+        { "target": "crewai", "label": "role orchestration", "type": "implemented_by" },
+        { "target": "autogen", "label": "event orchestration", "type": "implemented_by" },
+        { "target": "dify", "label": "visual orchestration", "type": "implemented_by" },
+        { "target": "multi_agent", "label": "agent coordination", "type": "related_to" }
+      ],
+      "size": 28
+    },
+    {
+      "id": "embedding",
+      "name": "Embedding / Text Embedding",
+      "name_zh": "嵌入 / 文本嵌入",
+      "category": "concept",
+      "description": "The process of converting text (or multi-modal data) into dense vector representations for semantic search, similarity matching, and RAG. By 2026, embedding models have become significantly more capable with models like OpenAI text-embedding-3, Cohere Embed v3, and open-source E5/Nomic.",
+      "description_zh": "将文本（或多模态数据）转换为稠密向量表示的过程，用于语义搜索、相似性匹配和RAG。到2026年，嵌入模型已显著增强，包括OpenAI text-embedding-3、Cohere Embed v3和开源E5/Nomic。",
+      "year": "2018",
+      "relationships": [
+        { "target": "rag", "label": "core component", "type": "used_by" },
+        { "target": "vector_db", "label": "stored as embeddings", "type": "uses" },
+        { "target": "memory", "label": "semantic recall", "type": "used_by" },
+        { "target": "openai", "label": "embedding API", "type": "provided_by" },
+        { "target": "cohere", "label": "embedding API", "type": "provided_by" },
+        { "target": "huggingface", "label": "open-source models", "type": "provided_by" },
+        { "target": "nomic", "label": "open-source embeddings", "type": "provided_by" },
+        { "target": "jina", "label": "embedding API", "type": "provided_by" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "guardrails",
+      "name": "Guardrails / Safety",
+      "name_zh": "防护栏 / 安全",
+      "category": "concept",
+      "description": "Mechanisms to ensure AI agent outputs are safe, accurate, and aligned with intended behavior. Includes input validation, output filtering, content moderation, and structured output enforcement. By 2026, guardrails are a critical production requirement, with dedicated frameworks like Guardrails AI and NeMo Guardrails.",
+      "description_zh": "确保AI Agent输出安全、准确并与预期行为一致的机制。包括输入验证、输出过滤、内容审核和结构化输出强制。到2026年，防护栏是关键的生产要求，有Guardrails AI和NeMo Guardrails等专用框架。",
+      "year": "2023",
+      "relationships": [
+        { "target": "openai_agents_sdk", "label": "built-in guardrails", "type": "implemented_by" },
+        { "target": "anthropic", "label": "Constitutional AI", "type": "implemented_by" },
+        { "target": "nvidia", "label": "NeMo Guardrails", "type": "implemented_by" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "agentic_coding",
+      "name": "Agentic Coding",
+      "name_zh": "Agentic编程",
+      "category": "concept",
+      "description": "The paradigm where AI agents write, debug, test, and deploy code autonomously or with minimal human guidance. By 2026, major tools include Claude Code, GitHub Copilot Agent, Cursor, Windsurf, and Devin. Represents one of the most impactful applications of AI agents.",
+      "description_zh": "AI Agent自主编写、调试、测试和部署代码或在最少人工指导下的范式。到2026年，主要工具包括Claude Code、GitHub Copilot Agent、Cursor、Windsurf和Devin。代表AI Agent最具影响力的应用之一。",
+      "year": "2024",
+      "relationships": [
+        { "target": "claude_code", "label": "leading tool", "type": "implemented_by" },
+        { "target": "cursor", "label": "AI-native IDE", "type": "implemented_by" },
+        { "target": "github", "label": "Copilot Agent", "type": "implemented_by" },
+        { "target": "windsurf", "label": "AI IDE", "type": "implemented_by" },
+        { "target": "devin", "label": "autonomous engineer", "type": "implemented_by" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "name_zh": "OpenAI",
+      "category": "player",
+      "description": "Leading AI research company behind GPT models, ChatGPT, the Agents SDK, DALL-E, Sora, and Codex. By 2026, OpenAI operates one of the largest AI API platforms and has pushed reasoning models (o-series) and multimodal capabilities.",
+      "description_zh": "GPT模型、ChatGPT、Agents SDK、DALL-E、Sora和Codex背后的领先AI研究公司。到2026年，OpenAI运营着最大的AI API平台之一，推动了推理模型（o系列）和多模态能力。",
+      "year": "2015",
+      "url": "https://openai.com",
+      "relationships": [
+        { "target": "gpt4o", "label": "produces", "type": "produces" },
+        { "target": "o3", "label": "produces", "type": "produces" },
+        { "target": "o4mini", "label": "produces", "type": "produces" },
+        { "target": "openai_agents_sdk", "label": "framework", "type": "produces" },
+        { "target": "function_calling", "label": "pioneered", "type": "pioneered" },
+        { "target": "embedding", "label": "text-embedding-3", "type": "provides" },
+        { "target": "rag", "label": "Assistants API", "type": "supports" },
+        { "target": "codex", "label": "coding agent", "type": "produces" },
+        { "target": "chatgpt", "label": "product", "type": "produces" },
+        { "target": "microsoft", "label": "investor/partner", "type": "partnered_with" }
+      ],
+      "size": 45
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "name_zh": "Anthropic (人类智能)",
+      "category": "player",
+      "description": "AI safety-focused company behind the Claude family of models. Created MCP protocol, Claude Code, and pioneered Constitutional AI. By 2026, Anthropic has become a top-tier AI provider with strong enterprise adoption and the Claude model family competing at the frontier.",
+      "description_zh": "以AI安全为Focus的公司，Claude系列模型背后。创建了MCP协议、Claude Code，并开创了Constitutional AI。到2026年，Anthropic已成为顶级AI提供商，具有强大的企业采用率和Claude模型系列在前沿竞争。",
+      "year": "2021",
+      "url": "https://anthropic.com",
+      "relationships": [
+        { "target": "claude", "label": "produces", "type": "produces" },
+        { "target": "claude_code", "label": "product", "type": "produces" },
+        { "target": "mcp", "label": "created", "type": "created" },
+        { "target": "guardrails", "label": "Constitutional AI", "type": "pioneered" }
+      ],
+      "size": 40
+    },
+    {
+      "id": "google",
+      "name": "Google DeepMind",
+      "name_zh": "Google DeepMind",
+      "category": "player",
+      "description": "Google's AI research division behind Gemini models, Google ADK, A2A protocol, and Vertex AI. By 2026, Google has a comprehensive AI ecosystem spanning models, agents, cloud infrastructure, and developer tools.",
+      "description_zh": "Google的AI研究部门，Gemini模型、Google ADK、A2A协议和Vertex AI背后。到2026年，Google拥有涵盖模型、Agent、云基础设施和开发者工具的全面AI生态系统。",
+      "year": "2023",
+      "url": "https://deepmind.google",
+      "relationships": [
+        { "target": "gemini", "label": "produces", "type": "produces" },
+        { "target": "google_adk", "label": "framework", "type": "produces" },
+        { "target": "a2a", "label": "created", "type": "created" },
+        { "target": "vertex_ai", "label": "cloud platform", "type": "produces" },
+        { "target": "embedding", "label": "text-embedding models", "type": "provides" }
+      ],
+      "size": 42
+    },
+    {
+      "id": "meta",
+      "name": "Meta AI",
+      "name_zh": "Meta AI",
+      "category": "player",
+      "description": "Meta's AI research arm, famous for open-sourcing the LLaMA family of models. By 2026, LLaMA has evolved through multiple versions and remains the most important open-weight model family, powering countless downstream applications and fine-tunes.",
+      "description_zh": "Meta的AI研究部门，以开源LLaMA系列模型闻名。到2026年，LLaMA已发展多个版本，仍是最重要的开放权重模型家族，驱动着无数下游应用和微调。",
+      "year": "2013",
+      "url": "https://ai.meta.com",
+      "relationships": [
+        { "target": "llama", "label": "produces", "type": "produces" },
+        { "target": "open_source", "label": "open model ecosystem", "type": "part_of" },
+        { "target": "huggingface", "label": "distribution platform", "type": "partnered_with" }
+      ],
+      "size": 38
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "name_zh": "微软",
+      "category": "player",
+      "description": "Tech giant deeply invested in AI through OpenAI partnership, Azure AI services, GitHub Copilot, VS Code, and the AutoGen framework. By 2026, Microsoft has the most comprehensive enterprise AI toolchain.",
+      "description_zh": "通过OpenAI合作、Azure AI服务、GitHub Copilot、VS Code和AutoGen框架深度投资AI的科技巨头。到2026年，微软拥有最全面的企业AI工具链。",
+      "year": "1975",
+      "url": "https://microsoft.com",
+      "relationships": [
+        { "target": "openai", "label": "investor/partner", "type": "partnered_with" },
+        { "target": "autogen", "label": "framework", "type": "produces" },
+        { "target": "github", "label": "Copilot Agent", "type": "produces" },
+        { "target": "azure_openai", "label": "cloud platform", "type": "produces" },
+        { "target": "cursor", "label": "VS Code based", "type": "influenced" },
+        { "target": "vscode", "label": "IDE with AI", "type": "produces" }
+      ],
+      "size": 38
+    },
+    {
+      "id": "open_source",
+      "name": "Open Source AI Community",
+      "name_zh": "开源AI社区",
+      "category": "player",
+      "description": "The global community of developers, researchers, and organizations contributing to open-source AI. Includes projects like HuggingFace ecosystem, open models (LLaMA, Mistral, Qwen, DeepSeek), frameworks, and tools. By 2026, open-source AI rivals closed-source in many benchmarks.",
+      "description_zh": "贡献开源AI的全球开发者、研究人员和组织社区。包括HuggingFace生态系统、开源模型（LLaMA、Mistral、Qwen、DeepSeek）、框架和工具。到2026年，开源AI在许多基准测试中与闭源相当。",
+      "year": "2015",
+      "url": "https://huggingface.co",
+      "relationships": [
+        { "target": "huggingface", "label": "platform hub", "type": "part_of" },
+        { "target": "llama", "label": "flagship model", "type": "produces" },
+        { "target": "mistral", "label": "model family", "type": "produces" },
+        { "target": "qwen", "label": "model family", "type": "produces" },
+        { "target": "deepseek", "label": "model family", "type": "produces" },
+        { "target": "langchain", "label": "framework", "type": "part_of" },
+        { "target": "dify", "label": "platform", "type": "part_of" },
+        { "target": "smolagents", "label": "framework", "type": "part_of" }
+      ],
+      "size": 40
+    },
+    {
+      "id": "nous_research",
+      "name": "Nous Research",
+      "name_zh": "Nous Research",
+      "category": "player",
+      "description": "Open-source AI research lab focused on creating uncensored, highly-capable open models and AI agents. Creators of Hermes Agent, Nous-Hermes models, and contributors to the open-source AI agent ecosystem.",
+      "description_zh": "专注于创建无审查、高能力开源模型和AI Agent的开源AI研究实验室。Hermes Agent、Nous-Hermes模型的创建者，开源AI Agent生态系统的贡献者。",
+      "year": "2023",
+      "url": "https://nousresearch.com",
+      "relationships": [
+        { "target": "hermes", "label": "produces", "type": "produces" },
+        { "target": "open_source", "label": "part of", "type": "part_of" },
+        { "target": "huggingface", "label": "model distribution", "type": "partnered_with" }
+      ],
+      "size": 22
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "name_zh": "Cohere",
+      "category": "player",
+      "description": "Enterprise-focused AI company specializing in language models and embeddings. By 2026, Cohere's Command R series and Embed v3 models are widely used for enterprise RAG and agent applications.",
+      "description_zh": "专注于语言模型和嵌入的企业AI公司。到2026年，Cohere的Command R系列和Embed v3模型广泛用于企业RAG和Agent应用。",
+      "year": "2019",
+      "url": "https://cohere.com",
+      "relationships": [
+        { "target": "embedding", "label": "Embed v3", "type": "provides" },
+        { "target": "rag", "label": "enterprise RAG", "type": "supports" }
+      ],
+      "size": 22
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "name_zh": "NVIDIA (英伟达)",
+      "category": "player",
+      "description": "GPU and AI infrastructure giant. By 2026, NVIDIA has expanded beyond hardware into AI agent frameworks (NVIDIA Agent Blueprint, NeMo), inference optimization (TensorRT-LLM), and the foundational GPU infrastructure powering all major AI workloads.",
+      "description_zh": "GPU和AI基础设施巨头。到2026年，NVIDIA已从硬件扩展到AI Agent框架（NVIDIA Agent Blueprint、NeMo）、推理优化（TensorRT-LLM）和驱动所有主要AI工作负载的基础GPU基础设施。",
+      "year": "1993",
+      "url": "https://nvidia.com",
+      "relationships": [
+        { "target": "guardrails", "label": "NeMo Guardrails", "type": "produces" },
+        { "target": "embedding", "label": "NVIDIA Embedding", "type": "provides" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "gpt4o",
+      "name": "GPT-4o",
+      "name_zh": "GPT-4o",
+      "category": "model",
+      "description": "OpenAI's flagship multimodal model combining text, vision, and audio capabilities. By 2026, still widely used as the default model for many agent applications, with native tool calling and strong reasoning.",
+      "description_zh": "OpenAI的旗舰多模态模型，结合了文本、视觉和音频能力。到2026年，仍作为许多Agent应用的默认模型广泛使用，具有原生工具调用和强推理能力。",
+      "year": "2024",
+      "relationships": [
+        { "target": "openai", "label": "produced by", "type": "produced_by" },
+        { "target": "function_calling", "label": "native tool calling", "type": "supports" },
+        { "target": "openai_agents_sdk", "label": "primary model", "type": "used_by" },
+        { "target": "embedding", "label": "multimodal embeddings", "type": "supports" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "o3",
+      "name": "o3 / o4-mini",
+      "name_zh": "o3 / o4-mini",
+      "category": "model",
+      "description": "OpenAI's reasoning model family. o3 excels at complex multi-step reasoning, coding, and science tasks. o4-mini provides a cost-effective reasoning option. By 2026, reasoning models have transformed agent planning capabilities.",
+      "description_zh": "OpenAI的推理模型家族。o3在复杂多步推理、编码和科学任务方面表现出色。o4-mini提供经济高效的推理选项。到2026年，推理模型已转变了Agent规划能力。",
+      "year": "2025",
+      "relationships": [
+        { "target": "openai", "label": "produced by", "type": "produced_by" },
+        { "target": "planning", "label": "enhanced reasoning", "type": "enhances" },
+        { "target": "agentic_coding", "label": "code reasoning", "type": "enhances" }
+      ],
+      "size": 28
+    },
+    {
+      "id": "claude",
+      "name": "Claude (claude-4-opus, claude-4-sonnet)",
+      "name_zh": "Claude (claude-4-opus, claude-4-sonnet)",
+      "category": "model",
+      "description": "Anthropic's family of AI models known for safety, long context, and strong coding/reasoning. By 2026, Claude 4 models are frontier competitors with extended thinking, 200K+ context, and native tool use. Widely used in agent applications.",
+      "description_zh": "Anthropic的AI模型系列，以安全性、长上下文和强编码/推理能力著称。到2026年，Claude 4模型是前沿竞争者，具有扩展思维、200K+上下文和原生工具使用。广泛用于Agent应用。",
+      "year": "2023",
+      "relationships": [
+        { "target": "anthropic", "label": "produced by", "type": "produced_by" },
+        { "target": "mcp", "label": "first adopter", "type": "uses" },
+        { "target": "claude_code", "label": "powers", "type": "powers" },
+        { "target": "planning", "label": "extended thinking", "type": "enhances" },
+        { "target": "tool_use", "label": "native tool use", "type": "supports" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini (2.5 Pro, 2.5 Flash)",
+      "name_zh": "Gemini (2.5 Pro, 2.5 Flash)",
+      "category": "model",
+      "description": "Google's frontier multimodal model family. By 2026, Gemini 2.5 models feature massive context windows (1M+ tokens), native multimodal understanding, strong coding, and are deeply integrated with Google's agent ecosystem.",
+      "description_zh": "Google的前沿多模态模型家族。到2026年，Gemini 2.5模型具有超大上下文窗口（100万+ tokens）、原生多模态理解、强编码能力，并与Google的Agent生态系统深度集成。",
+      "year": "2023",
+      "relationships": [
+        { "target": "google", "label": "produced by", "type": "produced_by" },
+        { "target": "google_adk", "label": "primary model", "type": "used_by" },
+        { "target": "a2a", "label": "native support", "type": "uses" },
+        { "target": "function_calling", "label": "native tool calling", "type": "supports" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "llama",
+      "name": "LLaMA (Meta)",
+      "name_zh": "LLaMA (Meta)",
+      "category": "model",
+      "description": "Meta's family of open-weight large language models. By 2026, LLaMA has evolved through multiple generations. The open-weight nature makes it the backbone of the open-source AI ecosystem, fine-tuned for countless use cases.",
+      "description_zh": "Meta的开放权重大语言模型家族。到2026年，LLaMA已发展多代。开放权重的特性使其成为开源AI生态系统的基础，为无数用例进行微调。",
+      "year": "2023",
+      "relationships": [
+        { "target": "meta", "label": "produced by", "type": "produced_by" },
+        { "target": "open_source", "label": "open model", "type": "part_of" },
+        { "target": "huggingface", "label": "distribution", "type": "distributed_on" },
+        { "target": "ollama", "label": "local serving", "type": "used_by" }
+      ],
+      "size": 30
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral (Mistral AI)",
+      "name_zh": "Mistral (Mistral AI)",
+      "category": "model",
+      "description": "European AI company producing high-quality open and closed models. By 2026, Mistral models (Mistral Large, Codestral) are widely used for coding and general-purpose tasks, with strong multilingual capabilities.",
+      "description_zh": "欧洲AI公司，生产高质量的开放和闭源模型。到2026年，Mistral模型（Mistral Large、Codestral）广泛用于编码和通用任务，具有强大的多语言能力。",
+      "year": "2023",
+      "url": "https://mistral.ai",
+      "relationships": [
+        { "target": "open_source", "label": "open models", "type": "part_of" },
+        { "target": "huggingface", "label": "distribution", "type": "distributed_on" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "name_zh": "DeepSeek (深度求索)",
+      "category": "model",
+      "description": "Chinese AI company known for DeepSeek-R1 (open reasoning model) and DeepSeek-V3. By 2026, DeepSeek models have gained global recognition for competitive performance at much lower cost, particularly excelling at reasoning tasks.",
+      "description_zh": "以DeepSeek-R1（开源推理模型）和DeepSeek-V3闻名的中国AI公司。到2026年，DeepSeek模型因其在更低成本下的竞争性能而获得全球认可，特别擅长推理任务。",
+      "year": "2023",
+      "url": "https://deepseek.com",
+      "relationships": [
+        { "target": "open_source", "label": "open models", "type": "part_of" },
+        { "target": "huggingface", "label": "distribution", "type": "distributed_on" },
+        { "target": "planning", "label": "reasoning models", "type": "enhances" }
+      ],
+      "size": 28
+    },
+    {
+      "id": "qwen",
+      "name": "Qwen (Alibaba)",
+      "name_zh": "通义千问 (阿里巴巴)",
+      "category": "model",
+      "description": "Alibaba's family of open-weight multimodal models. By 2026, Qwen 3 models are among the most capable open models, with strong multilingual support, coding, and multimodal capabilities, especially popular in the Chinese AI ecosystem.",
+      "description_zh": "阿里巴巴的开放权重多模态模型家族。到2026年，千问3模型是最强大的开源模型之一，具有强大的多语言支持、编码和多模态能力，在中国AI生态系统中特别受欢迎。",
+      "year": "2023",
+      "url": "https://qwenlm.github.io",
+      "relationships": [
+        { "target": "open_source", "label": "open models", "type": "part_of" },
+        { "target": "huggingface", "label": "distribution", "type": "distributed_on" }
+      ],
+      "size": 26
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "name_zh": "Hugging Face (抱脸虫)",
+      "category": "player",
+      "description": "The central platform and community hub for open-source AI. Hosts models, datasets, spaces, and tools like SmolAgents and Transformers. By 2026, the GitHub of AI — the default place to discover, share, and deploy models.",
+      "description_zh": "开源AI的核心平台和社区中心。托管模型、数据集、空间和SmolAgents、Transformers等工具。到2026年，AI的GitHub — 发现、分享和部署模型的默认场所。",
+      "year": "2016",
+      "url": "https://huggingface.co",
+      "relationships": [
+        { "target": "smolagents", "label": "produces", "type": "produces" },
+        { "target": "open_source", "label": "community hub", "type": "part_of" },
+        { "target": "llama", "label": "hosts models", "type": "distributes" },
+        { "target": "mistral", "label": "hosts models", "type": "distributes" },
+        { "target": "deepseek", "label": "hosts models", "type": "distributes" },
+        { "target": "qwen", "label": "hosts models", "type": "distributes" },
+        { "target": "embedding", "label": "model hosting", "type": "distributes" }
+      ],
+      "size": 35
+    },
+    {
+      "id": "pinecone",
+      "name": "Pinecone",
+      "name_zh": "Pinecone",
+      "category": "database",
+      "description": "Fully-managed cloud vector database. By 2026, remains a leading choice for production RAG applications with strong scaling, hybrid search, and managed infrastructure. Offers serverless pricing.",
+      "description_zh": "全托管云向量数据库。到2026年，凭借强大的扩展性、混合搜索和托管基础设施，仍是生产RAG应用的首选之一。提供无服务器定价。",
+      "year": "2021",
+      "url": "https://pinecone.io",
+      "relationships": [
+        { "target": "rag", "label": "vector storage", "type": "used_by" },
+        { "target": "langchain", "label": "integration", "type": "integrated_with" },
+        { "target": "llamaindex", "label": "integration", "type": "integrated_with" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "chroma",
+      "name": "Chroma",
+      "name_zh": "Chroma",
+      "category": "database",
+      "description": "Open-source embedding database designed for simplicity. By 2026, the most popular choice for local development and prototyping of RAG applications. Easy to embed in Python applications.",
+      "description_zh": "为简洁性设计的开源嵌入数据库。到2026年，是RAG应用本地开发和原型设计最受欢迎的选择。易于嵌入Python应用。",
+      "year": "2022",
+      "url": "https://github.com/chroma-core/chroma",
+      "relationships": [
+        { "target": "rag", "label": "vector storage", "type": "used_by" },
+        { "target": "langchain", "label": "default vector store", "type": "integrated_with" },
+        { "target": "llamaindex", "label": "integration", "type": "integrated_with" },
+        { "target": "open_source", "label": "open source", "type": "part_of" }
+      ],
+      "size": 22
+    },
+    {
+      "id": "qdrant",
+      "name": "Qdrant",
+      "name_zh": "Qdrant",
+      "category": "database",
+      "description": "High-performance open-source vector database written in Rust. By 2026, known for excellent performance at scale, filtering capabilities, and hybrid search. Popular for production deployments.",
+      "description_zh": "用Rust编写的高性能开源向量数据库。到2026年，以出色的性能扩展性、过滤能力和混合搜索著称。在生产部署中很受欢迎。",
+      "year": "2021",
+      "url": "https://github.com/qdrant/qdrant",
+      "relationships": [
+        { "target": "rag", "label": "vector storage", "type": "used_by" },
+        { "target": "langchain", "label": "integration", "type": "integrated_with" },
+        { "target": "llamaindex", "label": "integration", "type": "integrated_with" },
+        { "target": "open_source", "label": "open source", "type": "part_of" }
+      ],
+      "size": 22
+    },
+    {
+      "id": "weaviate",
+      "name": "Weaviate",
+      "name_zh": "Weaviate",
+      "category": "database",
+      "description": "Open-source vector database with native multi-modal support and GraphQL API. By 2026, used in enterprise RAG and search applications with strong vectorization capabilities.",
+      "description_zh": "具有原生多模态支持和GraphQL API的开源向量数据库。到2026年，用于企业RAG和搜索应用，具有强大的向量化能力。",
+      "year": "2019",
+      "url": "https://github.com/weaviate/weaviate",
+      "relationships": [
+        { "target": "rag", "label": "vector storage", "type": "used_by" },
+        { "target": "open_source", "label": "open source", "type": "part_of" }
+      ],
+      "size": 18
+    },
+    {
+      "id": "vector_db",
+      "label": "Vector Database",
+      "label_zh": "向量数据库 (总称)",
+      "category": "concept",
+      "name": "Vector Database",
+      "name_zh": "向量数据库",
+      "description": "Specialized databases for storing, indexing, and querying high-dimensional vector embeddings. Essential for RAG, semantic search, and memory systems. By 2026, the vector database market has consolidated around a few major players.",
+      "description_zh": "用于存储、索引和查询高维向量嵌入的专用数据库。RAG、语义搜索和记忆系统的核心组件。到2026年，向量数据库市场已围绕几个主要玩家整合。",
+      "year": "2020",
+      "relationships": [
+        { "target": "rag", "label": "core storage", "type": "used_by" },
+        { "target": "memory", "label": "memory backend", "type": "used_by" },
+        { "target": "embedding", "label": "stores vectors", "type": "stores" },
+        { "target": "pinecone", "label": "example", "type": "example_of" },
+        { "target": "chroma", "label": "example", "type": "example_of" },
+        { "target": "qdrant", "label": "example", "type": "example_of" },
+        { "target": "weaviate", "label": "example", "type": "example_of" }
+      ],
+      "size": 28
+    },
+    {
+      "id": "llms",
+      "name": "LLMs (Large Language Models)",
+      "name_zh": "大语言模型 (LLMs)",
+      "category": "concept",
+      "name": "Large Language Models",
+      "name_zh": "大语言模型",
+      "description": "Foundation models that power all AI agents. By 2026, LLMs come in three tiers: frontier closed (GPT-4o, Claude 4, Gemini 2.5), efficient reasoning (o3, DeepSeek-R1), and open-weight (LLaMA 4, Mistral, Qwen 3). Context windows exceed 1M tokens for top models.",
+      "description_zh": "驱动所有AI Agent的基础模型。到2026年，LLM分为三个层级：前沿闭源（GPT-4o、Claude 4、Gemini 2.5）、高效推理（o3、DeepSeek-R1）和开放权重（LLaMA 4、Mistral、Qwen 3）。顶级模型的上下文窗口超过100万tokens。",
+      "year": "2018",
+      "relationships": [
+        { "target": "function_calling", "label": "native capability", "type": "implements" },
+        { "target": "gpt4o", "label": "example", "type": "example_of" },
+        { "target": "claude", "label": "example", "type": "example_of" },
+        { "target": "gemini", "label": "example", "type": "example_of" },
+        { "target": "llama", "label": "example", "type": "example_of" },
+        { "target": "mistral", "label": "example", "type": "example_of" },
+        { "target": "deepseek", "label": "example", "type": "example_of" },
+        { "target": "qwen", "label": "example", "type": "example_of" }
+      ],
+      "size": 40
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "name_zh": "Cursor",
+      "category": "application",
+      "description": "AI-native code editor (fork of VS Code) that deeply integrates LLM-powered coding assistance. By 2026, one of the most popular IDEs among developers for its AI-first approach to code editing, refactoring, and agent-based coding workflows.",
+      "description_zh": "深度集成LLM驱动编码辅助的AI原生代码编辑器（VS Code分支）。到2026年，因其AI优先的代码编辑、重构和基于Agent的编码工作流方法而成为开发者中最受欢迎的IDE之一。",
+      "year": "2023",
+      "url": "https://cursor.com",
+      "relationships": [
+        { "target": "agentic_coding", "label": "leading tool", "type": "implements" },
+        { "target": "mcp", "label": "tool protocol", "type": "uses" },
+        { "target": "anthropic", "label": "Claude integration", "type": "integrates_with" },
+        { "target": "openai", "label": "GPT integration", "type": "integrates_with" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "windsurf",
+      "name": "Windsurf (Codeium)",
+      "name_zh": "Windsurf (Codeium)",
+      "category": "application",
+      "description": "AI-powered code editor by Codeium with agentic coding capabilities. By 2026, offers Cascade — a multi-step coding agent that can execute terminal commands, edit files, and handle complex coding tasks.",
+      "description_zh": "Codeium的AI驱动代码编辑器，具有Agentic编码能力。到2026年，提供Cascade — 一个可以执行终端命令、编辑文件和处理复杂编码任务的多步骤编码Agent。",
+      "year": "2024",
+      "url": "https://windsurf.com",
+      "relationships": [
+        { "target": "agentic_coding", "label": "AI coding tool", "type": "implements" },
+        { "target": "mcp", "label": "tool protocol", "type": "uses" }
+      ],
+      "size": 20
+    },
+    {
+      "id": "devin",
+      "name": "Devin (Cognition)",
+      "name_zh": "Devin (Cognition AI)",
+      "category": "application",
+      "description": "An autonomous AI software engineer that can plan, code, test, and deploy software with minimal human intervention. By 2026, represents the ambitious end of the agentic coding spectrum.",
+      "description_zh": "自主AI软件工程师，可以在最少人工干预下计划、编码、测试和部署软件。到2026年，代表了Agentic编码领域最具野心的一端。",
+      "year": "2024",
+      "url": "https://devin.ai",
+      "relationships": [
+        { "target": "agentic_coding", "label": "autonomous coding", "type": "implements" },
+        { "target": "planning", "label": "task planning", "type": "implements" }
+      ],
+      "size": 18
+    },
+    {
+      "id": "github",
+      "name": "GitHub Copilot Agent",
+      "name_zh": "GitHub Copilot Agent",
+      "category": "application",
+      "description": "GitHub's AI coding assistant evolved into an agentic system. By 2026, Copilot Agent can handle issues, create PRs, run tests, and work across the full software development lifecycle.",
+      "description_zh": "GitHub的AI编码助手演进为Agentic系统。到2026年，Copilot Agent可以处理问题、创建PR、运行测试，并在整个软件开发生命周期中工作。",
+      "year": "2021",
+      "url": "https://github.com/features/copilot",
+      "relationships": [
+        { "target": "agentic_coding", "label": "AI coding tool", "type": "implements" },
+        { "target": "microsoft", "label": "owned by", "type": "produced_by" },
+        { "target": "openai", "label": "powered by", "type": "powered_by" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "name_zh": "ChatGPT",
+      "category": "application",
+      "description": "OpenAI's flagship consumer AI application. By 2026, ChatGPT has evolved into an agent platform with GPTs, plugins, browsing, code interpretation, and memory — serving hundreds of millions of users.",
+      "description_zh": "OpenAI的旗舰消费者AI应用。到2026年，ChatGPT已发展为具有GPTs、插件、浏览、代码解释和记忆功能的Agent平台 — 服务数亿用户。",
+      "year": "2022",
+      "url": "https://chatgpt.com",
+      "relationships": [
+        { "target": "openai", "label": "produced by", "type": "produced_by" },
+        { "target": "gpt4o", "label": "powered by", "type": "powered_by" },
+        { "target": "function_calling", "label": "tool use", "type": "uses" },
+        { "target": "memory", "label": "persistent memory", "type": "implements" },
+        { "target": "rag", "label": "web retrieval", "type": "implements" }
+      ],
+      "size": 28
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "name_zh": "Ollama",
+      "category": "infrastructure",
+      "description": "The most popular tool for running open-source LLMs locally. By 2026, Ollama is the de facto standard for local LLM deployment on macOS/Linux/Windows, with one-command model downloads and an OpenAI-compatible API.",
+      "description_zh": "本地运行开源LLM最流行的工具。到2026年，Ollama是macOS/Linux/Windows上本地LLM部署的事实标准，具有一键模型下载和OpenAI兼容API。",
+      "year": "2023",
+      "url": "https://ollama.com",
+      "relationships": [
+        { "target": "llama", "label": "serves locally", "type": "serves" },
+        { "target": "mistral", "label": "serves locally", "type": "serves" },
+        { "target": "open_source", "label": "local inference", "type": "part_of" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "mem0",
+      "name": "Mem0",
+      "name_zh": "Mem0",
+      "category": "infrastructure",
+      "description": "A memory layer for AI agents that provides persistent, personalized memory across sessions. By 2026, Mem0 has become a popular choice for adding memory capabilities to agent applications.",
+      "description_zh": "AI Agent的记忆层，提供跨会话的持久化个性化记忆。到2026年，Mem0已成为为Agent应用添加记忆能力的流行选择。",
+      "year": "2024",
+      "url": "https://github.com/mem0ai/mem0",
+      "relationships": [
+        { "target": "memory", "label": "memory layer", "type": "implements" },
+        { "target": "rag", "label": "semantic retrieval", "type": "uses" },
+        { "target": "open_source", "label": "open source", "type": "part_of" }
+      ],
+      "size": 18
+    },
+    {
+      "id": "jina",
+      "name": "Jina AI",
+      "name_zh": "Jina AI",
+      "category": "infrastructure",
+      "description": "AI infrastructure company specializing in embedding models, reader APIs, and search. By 2026, Jina Embeddings and Reader API are widely used in RAG pipelines.",
+      "description_zh": "专注于嵌入模型、Reader API和搜索的AI基础设施公司。到2026年，Jina Embeddings和Reader API在RAG管道中广泛使用。",
+      "year": "2020",
+      "url": "https://jina.ai",
+      "relationships": [
+        { "target": "embedding", "label": "embedding models", "type": "provides" },
+        { "target": "rag", "label": "web reader for RAG", "type": "used_by" }
+      ],
+      "size": 18
+    },
+    {
+      "id": "nomic",
+      "name": "Nomic AI",
+      "name_zh": "Nomic AI",
+      "category": "infrastructure",
+      "description": "Open-source embedding and data infrastructure company. Known for Nomic Embed, Atlas (data visualization), and GPT4All. By 2026, a key player in making embedding models accessible.",
+      "description_zh": "开源嵌入和数据基础设施公司。以Nomic Embed、Atlas（数据可视化）和GPT4All闻名。到2026年，是使嵌入模型易于获取的关键玩家。",
+      "year": "2022",
+      "url": "https://nomic.ai",
+      "relationships": [
+        { "target": "embedding", "label": "open-source embeddings", "type": "provides" },
+        { "target": "open_source", "label": "open source", "type": "part_of" }
+      ],
+      "size": 16
+    },
+    {
+      "id": "azure_openai",
+      "name": "Azure OpenAI Service",
+      "name_zh": "Azure OpenAI 服务",
+      "category": "infrastructure",
+      "description": "Microsoft's cloud platform for deploying OpenAI models at enterprise scale. By 2026, the primary enterprise deployment path for GPT models with enterprise security, compliance, and Azure AI integrations.",
+      "description_zh": "微软的企业级云平台，用于大规模部署OpenAI模型。到2026年，是GPT模型的主要企业部署路径，具有企业安全性、合规性和Azure AI集成。",
+      "year": "2023",
+      "relationships": [
+        { "target": "microsoft", "label": "owned by", "type": "produced_by" },
+        { "target": "openai", "label": "model provider", "type": "powered_by" },
+        { "target": "autogen", "label": "enterprise deployment", "type": "integrated_with" }
+      ],
+      "size": 25
+    },
+    {
+      "id": "vertex_ai",
+      "name": "Vertex AI",
+      "name_zh": "Vertex AI (Google Cloud)",
+      "category": "infrastructure",
+      "description": "Google Cloud's AI platform for building and deploying AI applications. By 2026, the enterprise home for Gemini models, Google ADK agents, and MLOps pipelines.",
+      "description_zh": "Google Cloud的AI平台，用于构建和部署AI应用。到2026年，是Gemini模型、Google ADK Agent和MLOps管道的企业之家。",
+      "year": "2021",
+      "relationships": [
+        { "target": "google", "label": "owned by", "type": "produced_by" },
+        { "target": "gemini", "label": "model hosting", "type": "integrated_with" },
+        { "target": "google_adk", "label": "agent deployment", "type": "integrated_with" }
+      ],
+      "size": 25
+    }
+  ],
+  "links": [],
+  "legend": {
+    "relationship_types": {
+      "uses": "Uses / depends on",
+      "implements": "Implements / provides",
+      "integrates_with": "Integrates with",
+      "produces": "Produces / creates",
+      "produced_by": "Produced by",
+      "part_of": "Part of",
+      "related_to": "Related / complements",
+      "powers": "Powers",
+      "powered_by": "Powered by",
+      "created_by": "Created / originated by",
+      "used_by": "Used by",
+      "enhances": "Enhances",
+      "serves": "Serves / runs locally",
+      "distributes": "Distributes / hosts",
+      "distributed_on": "Distributed on",
+      "provided_by": "Provided by",
+      "maintained_by": "Maintained by",
+      "partnered_with": "Partner / investor",
+      "contains": "Contains / sub-component",
+      "example_of": "Example of",
+      "stores": "Stores data",
+      "superset": "Superset concept",
+      "influenced": "Influenced by"
+    }
+  }
+}
