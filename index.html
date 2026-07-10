@@ -187,40 +187,6 @@ const compareModeBanner = document.getElementById('compareMode');
 const comparePanel = document.getElementById('comparePanel');
 const compareBody = document.getElementById('compareBody');
 
-compareBtn.addEventListener('click', () => {
-  isCompareActive = !isCompareActive;
-  compareBtn.classList.toggle('active', isCompareActive);
-  compareModeBanner.classList.toggle('visible', isCompareActive);
-  if (isCompareActive) {
-    compareSelection = [];
-    node.classed('comparing', false);
-    compareBody.innerHTML = '<div class="compare-instructions"><div class="icon">👆</div>点击图中两个节点进行对比<br><span style="font-size:11px;color:var(--text-muted)">支持同类型或不同类型的技术对比</span></div>';
-    comparePanel.classList.add('visible');
-  } else {
-    comparePanel.classList.remove('visible');
-    node.classed('comparing', false);
-    link.classed('compared', false);
-  }
-});
-
-document.getElementById('cancelCompare').addEventListener('click', () => {
-  isCompareActive = false;
-  compareBtn.classList.remove('active');
-  compareModeBanner.classList.remove('visible');
-  comparePanel.classList.remove('visible');
-  node.classed('comparing', false);
-  link.classed('compared', false);
-});
-
-document.getElementById('closeCompare').addEventListener('click', () => {
-  isCompareActive = false;
-  compareBtn.classList.remove('active');
-  compareModeBanner.classList.remove('visible');
-  comparePanel.classList.remove('visible');
-  node.classed('comparing', false);
-  link.classed('compared', false);
-});
-
 // Export
 document.getElementById('exportBtn').addEventListener('click', () => {
   const svgEl = document.querySelector('#graph svg');
@@ -312,6 +278,41 @@ const node=g.append('g').selectAll('g').data(nodes).enter().append('g')
 .on('start',(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y})
 .on('drag',(e,d)=>{d.fx=e.x;d.fy=d.y})
 .on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
+
+// Compare mode event handlers (must be after node/link are defined)
+compareBtn.addEventListener('click', () => {
+  isCompareActive = !isCompareActive;
+  compareBtn.classList.toggle('active', isCompareActive);
+  compareModeBanner.classList.toggle('visible', isCompareActive);
+  if (isCompareActive) {
+    compareSelection = [];
+    node.classed('comparing', false);
+    compareBody.innerHTML = '<div class="compare-instructions"><div class="icon">👆</div>点击图中两个节点进行对比<br><span style="font-size:11px;color:var(--text-muted)">支持同类型或不同类型的技术对比</span></div>';
+    comparePanel.classList.add('visible');
+  } else {
+    comparePanel.classList.remove('visible');
+    node.classed('comparing', false);
+    link.classed('compared', false);
+  }
+});
+
+document.getElementById('cancelCompare').addEventListener('click', () => {
+  isCompareActive = false;
+  compareBtn.classList.remove('active');
+  compareModeBanner.classList.remove('visible');
+  comparePanel.classList.remove('visible');
+  node.classed('comparing', false);
+  link.classed('compared', false);
+});
+
+document.getElementById('closeCompare').addEventListener('click', () => {
+  isCompareActive = false;
+  compareBtn.classList.remove('active');
+  compareModeBanner.classList.remove('visible');
+  comparePanel.classList.remove('visible');
+  node.classed('comparing', false);
+  link.classed('compared', false);
+});
 
 node.each(function(d){const el=d3.select(this),c=cc[d.category]||'#888',r=d.size/2;
 if(d.category==='protocol'){el.append('polygon').attr('points','0,'+(-r)+' '+r+',0 0,'+r+' '+(-r)+',0').attr('fill',c).attr('fill-opacity',.8).attr('stroke',c).attr('stroke-width',1.5).attr('filter','url(#glow)')}
