@@ -37,6 +37,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .link{stroke-opacity:.2;transition:stroke-opacity .2s}
 .link:hover{stroke-opacity:.6}
 .link.highlighted{stroke-opacity:.8;stroke-width:2}
+.link.compared{stroke-opacity:1;stroke-width:3;stroke-dasharray:5,3}
 .tooltip{position:absolute;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;font-size:12px;max-width:380px;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.3);backdrop-filter:blur(20px);z-index:1000;display:none;animation:tooltipIn .2s ease}
 @keyframes tooltipIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .tooltip h3{font-size:16px;margin-bottom:4px;font-weight:600}
@@ -56,8 +57,9 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .controls input{padding:8px 12px;border:1px solid var(--border-color);background:var(--bg-primary);color:var(--text-primary);border-radius:8px;width:220px;font-size:13px;transition:border-color .2s}
 .controls input:focus{outline:none;border-color:var(--accent)}
 .controls input::placeholder{color:var(--text-muted)}
-.theme-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border-color);background:var(--bg-primary);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s}
-.theme-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.theme-btn,.icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border-color);background:var(--bg-primary);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+.theme-btn:hover,.icon-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.icon-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .stats{position:absolute;top:20px;right:20px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:12px;padding:20px;font-size:13px;z-index:100;backdrop-filter:blur(20px);min-width:180px}
 .stats h3{font-size:15px;margin-bottom:12px;font-weight:600}
 .stats-row{display:flex;justify-content:space-between;margin-bottom:6px}
@@ -84,7 +86,32 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .detail-related{display:flex;flex-wrap:wrap;gap:6px}
 .detail-related-tag{padding:4px 10px;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:4px;font-size:11px;color:var(--text-secondary);cursor:pointer;transition:all .2s}
 .detail-related-tag:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-@media(max-width:768px){.legend,.stats,.hint,.detail-panel{display:none!important}.controls{bottom:10px;right:10px;left:10px;justify-content:center}}
+.compare-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;max-width:90vw;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:16px;z-index:300;backdrop-filter:blur(20px);box-shadow:0 12px 60px rgba(0,0,0,.4);display:none;animation:compareIn .3s ease;overflow:hidden}
+@keyframes compareIn{from{opacity:0;transform:translate(-50%,-50%) scale(.95)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.compare-panel.visible{display:block}
+.compare-header{padding:20px 24px;background:linear-gradient(135deg,var(--accent),#9B59B6);display:flex;justify-content:space-between;align-items:center}
+.compare-header h2{font-size:18px;font-weight:600;color:#fff}
+.compare-header .close-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.compare-body{padding:24px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.compare-card{background:var(--bg-primary);border:1px solid var(--border-color);border-radius:12px;padding:20px;position:relative}
+.compare-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.compare-card .zh{font-size:12px;color:var(--text-secondary);margin-bottom:12px}
+.compare-card .cat-badge{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:3px 8px;border-radius:3px;display:inline-block;margin-bottom:12px}
+.compare-card .desc{font-size:12px;line-height:1.6;color:var(--text-secondary);margin-bottom:16px}
+.compare-card .stat-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-color);font-size:12px}
+.compare-card .stat-label{color:var(--text-muted)}
+.compare-card .stat-val{font-weight:600;color:var(--accent)}
+.compare-card .vs-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600}
+.compare-instructions{text-align:center;padding:16px;color:var(--text-muted);font-size:13px}
+.compare-instructions .icon{font-size:24px;margin-bottom:8px}
+.export-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:12px 24px;border-radius:8px;font-size:13px;z-index:400;display:none;animation:toastIn .3s ease}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.compare-mode{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:250;display:none;animation:toastIn .3s ease}
+.compare-mode.visible{display:flex;align-items:center;gap:12px}
+.compare-mode .cancel{background:rgba(255,255,255,.2);border:none;color:#fff;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:12px}
+.node.comparing circle,.node.comparing polygon{stroke:#fff!important;stroke-width:3!important;filter:url(#glow)!important}
+@media(max-width:768px){.legend,.stats,.hint,.detail-panel,.compare-panel{display:none!important}.controls{bottom:10px;right:10px;left:10px;justify-content:center}}
 </style>
 </head>
 <body>
@@ -97,9 +124,11 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="stats" id="stats"></div>
 <div class="controls">
 <input type="text" id="search" placeholder="🔍 搜索节点（中英文）">
+<button class="icon-btn" id="compareBtn" title="对比模式">⚖️</button>
+<button class="icon-btn" id="exportBtn" title="导出图片">📥</button>
 <button class="theme-btn" id="themeBtn" title="切换主题">🌙</button>
 </div>
-<div class="hint">🖱 拖拽节点 · 🔍 滚轮缩放 · 👆 点击查看详情</div>
+<div class="hint">🖱 拖拽节点 · 🔍 滚轮缩放 · 👆 点击查看详情 · ⚖️ 对比模式</div>
 <div class="detail-panel" id="detailPanel">
 <div class="detail-header">
 <button class="close-btn" id="closeDetail">×</button>
@@ -119,6 +148,24 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 </div>
+<div class="compare-panel" id="comparePanel">
+<div class="compare-header">
+<h2>⚖️ 技术对比</h2>
+<button class="close-btn" id="closeCompare">×</button>
+</div>
+<div class="compare-body" id="compareBody">
+<div class="compare-instructions">
+<div class="icon">👆</div>
+点击图中两个节点进行对比<br>
+<span style="font-size:11px;color:var(--text-muted)">支持同类型或不同类型的技术对比</span>
+</div>
+</div>
+</div>
+<div class="compare-mode" id="compareMode">
+<span>⚖️ 对比模式已开启 — 点击选择两个节点</span>
+<button class="cancel" id="cancelCompare">取消</button>
+</div>
+<div class="export-toast" id="exportToast">✅ 图片已保存到下载文件夹</div>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script>
 let currentTheme = localStorage.getItem('theme') || 'dark';
@@ -130,6 +177,76 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', currentTheme);
   localStorage.setItem('theme', currentTheme);
   document.getElementById('themeBtn').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+});
+
+// Compare mode
+let compareMode = false;
+let compareNodes = [];
+const compareBtn = document.getElementById('compareBtn');
+const compareModeEl = document.getElementById('compareMode');
+const comparePanel = document.getElementById('comparePanel');
+const compareBody = document.getElementById('compareBody');
+
+compareBtn.addEventListener('click', () => {
+  compareMode = !compareMode;
+  compareBtn.classList.toggle('active', compareMode);
+  compareModeEl.classList.toggle('visible', compareMode);
+  if (compareMode) {
+    compareNodes = [];
+    node.classed('comparing', false);
+    compareBody.innerHTML = '<div class="compare-instructions"><div class="icon">👆</div>点击图中两个节点进行对比<br><span style="font-size:11px;color:var(--text-muted)">支持同类型或不同类型的技术对比</span></div>';
+    comparePanel.classList.add('visible');
+  } else {
+    comparePanel.classList.remove('visible');
+    node.classed('comparing', false);
+    link.classed('compared', false);
+  }
+});
+
+document.getElementById('cancelCompare').addEventListener('click', () => {
+  compareMode = false;
+  compareBtn.classList.remove('active');
+  compareModeEl.classList.remove('visible');
+  comparePanel.classList.remove('visible');
+  node.classed('comparing', false);
+  link.classed('compared', false);
+});
+
+document.getElementById('closeCompare').addEventListener('click', () => {
+  compareMode = false;
+  compareBtn.classList.remove('active');
+  compareModeEl.classList.remove('visible');
+  comparePanel.classList.remove('visible');
+  node.classed('comparing', false);
+  link.classed('compared', false);
+});
+
+// Export
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const svgEl = document.querySelector('#graph svg');
+  const svgData = new XMLSerializer().serializeToString(svgEl);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(svgBlob);
+  img.onload = () => {
+    canvas.width = img.width * 2;
+    canvas.height = img.height * 2;
+    ctx.scale(2, 2);
+    ctx.fillStyle = currentTheme === 'dark' ? '#0a0e17' : '#f5f7fa';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    const a = document.createElement('a');
+    a.download = 'ai-agent-graph-' + new Date().toISOString().slice(0,10) + '.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+    const toast = document.getElementById('exportToast');
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2000);
+  };
+  img.src = url;
 });
 
 fetch('data.json').then(r=>r.json()).then(data=>{
@@ -193,7 +310,7 @@ const link=g.append('g').selectAll('line').data(links).enter().append('line')
 const node=g.append('g').selectAll('g').data(nodes).enter().append('g')
 .call(d3.drag()
 .on('start',(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y})
-.on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y})
+.on('drag',(e,d)=>{d.fx=e.x;d.fy=d.y})
 .on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
 
 node.each(function(d){const el=d3.select(this),c=cc[d.category]||'#888',r=d.size/2;
@@ -209,6 +326,7 @@ node.append('text').attr('class','node-label-zh').attr('dy',d=>d.size/2+26).text
 // Tooltip
 const tt=document.getElementById('tooltip');
 node.on('mouseover',function(e,d){
+if(compareMode){tt.style.display='block';tt.innerHTML='<h3>'+d.name+'</h3><div class="zh">'+(d.name_zh||'')+'</div><div class="meta">点击选择进行对比</div>';tt.style.left=(e.pageX+15)+'px';tt.style.top=(e.pageY-10)+'px';return}
 tt.style.display='block';
 const cat=data.metadata.categories[d.category];
 const connCount=d.relationships?.length||0;
@@ -221,9 +339,9 @@ node.style('opacity',n=>cn.has(n.id)?1:.15);
 link.style('opacity',l=>{const s=l.source.id||l.source,t=l.target.id||l.target;return(s===d.id||t===d.id)?.8:.05})
 })
 .on('mousemove',e=>{tt.style.left=(e.pageX+15)+'px';tt.style.top=(e.pageY-10)+'px'})
-.on('mouseout',()=>{tt.style.display='none';node.style('opacity',1);link.style('opacity',.25)});
+.on('mouseout',()=>{tt.style.display='none';if(!compareMode){node.style('opacity',1);link.style('opacity',.25)}});
 
-// Click for detail panel
+// Click for detail panel or compare
 const detailPanel=document.getElementById('detailPanel');
 document.getElementById('closeDetail').addEventListener('click',()=>{
 detailPanel.classList.remove('visible');
@@ -231,6 +349,20 @@ node.style('opacity',1);link.style('opacity',.25)});
 
 node.on('click',function(e,d){
 e.stopPropagation();
+
+if(compareMode){
+compareNodes.push(d);
+d3.select(this).classed('comparing', true);
+if(compareNodes.length===2){
+showCompare(compareNodes[0], compareNodes[1]);
+compareMode = false;
+compareBtn.classList.remove('active');
+compareModeEl.classList.remove('visible');
+compareNodes = [];
+}
+return;
+}
+
 const cat=data.metadata.categories[d.category];
 const connCount=d.relationships?.length||0;
 
@@ -273,10 +405,61 @@ detailPanel.classList.add('visible')});
 function showDetail(d){
 node.dispatch('click').filter(n=>n.id===d.id).node()}
 
+function showCompare(a, b){
+const catA = data.metadata.categories[a.category];
+const catB = data.metadata.categories[b.category];
+const connA = a.relationships?.length||0;
+const connB = b.relationships?.length||0;
+const common = new Set();
+links.forEach(l=>{
+const s=l.source.id||l.source,t=l.target.id||l.target;
+if(s===a.id&&t===b.id)common.add(b.id);
+if(t===a.id&&s===b.id)common.add(a.id);
+if(s===a.id)common.add(t);
+if(s===b.id)common.add(t);
+if(t===a.id)common.add(s);
+if(t===b.id)common.add(s);
+});
+
+compareBody.innerHTML=`
+<div class="compare-grid">
+<div class="compare-card">
+<div class="vs-badge">A</div>
+<h3>${a.name}</h3>
+<div class="zh">${a.name_zh||''}</div>
+<div class="cat-badge" style="background:${catA?.color||'#666'}30;color:${catA?.color||'#fff'}">${catA?.label_zh||a.category}</div>
+<div class="desc">${a.description_zh||a.description||'暂无描述'}</div>
+<div class="stat-row"><span class="stat-label">连接数</span><span class="stat-val">${connA}</span></div>
+<div class="stat-row"><span class="stat-label">分类</span><span class="stat-val">${catA?.label_zh||a.category}</span></div>
+<div class="stat-row"><span class="stat-label">英文名</span><span class="stat-val">${a.name}</span></div>
+</div>
+<div class="compare-card">
+<div class="vs-badge">B</div>
+<h3>${b.name}</h3>
+<div class="zh">${b.name_zh||''}</div>
+<div class="cat-badge" style="background:${catB?.color||'#666'}30;color:${catB?.color||'#fff'}">${catB?.label_zh||b.category}</div>
+<div class="desc">${b.description_zh||b.description||'暂无描述'}</div>
+<div class="stat-row"><span class="stat-label">连接数</span><span class="stat-val">${connB}</span></div>
+<div class="stat-row"><span class="stat-label">分类</span><span class="stat-val">${catB?.label_zh||b.category}</span></div>
+<div class="stat-row"><span class="stat-label">英文名</span><span class="stat-val">${b.name}</span></div>
+</div>
+</div>
+<div style="margin-top:16px;padding:16px;background:var(--bg-primary);border-radius:8px;font-size:12px;color:var(--text-secondary)">
+<strong style="color:var(--text-primary)">📊 对比分析</strong><br>
+• ${a.name} 有 ${connA} 个关联，${b.name} 有 ${connB} 个关联<br>
+• ${connA>connB?a.name:connB>connA?b.name:'两者'} 在生态中更活跃<br>
+• ${catA?.label_zh===catB?.label_zh?'两者属于同一类别：'+catA?.label_zh:'类别不同：'+(catA?.label_zh||a.category)+' vs '+(catB?.label_zh||b.category)}
+</div>`;
+
+// Highlight connections between them
+link.classed('compared', l=>(l.source.id===a.id&&l.target.id===b.id)||(l.source.id===b.id&&l.target.id===a.id));
+}
+
 svg.on('click',()=>{
+if(!compareMode){
 detailPanel.classList.remove('visible');
 node.style('opacity',1);link.style('opacity',.25);
-link.classed('highlighted',false)});
+link.classed('highlighted',false)}});
 
 // Search
 document.getElementById('search').addEventListener('input',function(e){
