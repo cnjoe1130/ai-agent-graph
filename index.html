@@ -179,20 +179,20 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   document.getElementById('themeBtn').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
 });
 
-// Compare mode
-let compareMode = false;
-let compareNodes = [];
+// Compare mode (variable named isCompareActive to avoid collision with DOM id="compareMode")
+let isCompareActive = false;
+let compareSelection = [];
 const compareBtn = document.getElementById('compareBtn');
-const compareModeEl = document.getElementById('compareMode');
+const compareModeBanner = document.getElementById('compareMode');
 const comparePanel = document.getElementById('comparePanel');
 const compareBody = document.getElementById('compareBody');
 
 compareBtn.addEventListener('click', () => {
-  compareMode = !compareMode;
-  compareBtn.classList.toggle('active', compareMode);
-  compareModeEl.classList.toggle('visible', compareMode);
-  if (compareMode) {
-    compareNodes = [];
+  isCompareActive = !isCompareActive;
+  compareBtn.classList.toggle('active', isCompareActive);
+  compareModeBanner.classList.toggle('visible', isCompareActive);
+  if (isCompareActive) {
+    compareSelection = [];
     node.classed('comparing', false);
     compareBody.innerHTML = '<div class="compare-instructions"><div class="icon">👆</div>点击图中两个节点进行对比<br><span style="font-size:11px;color:var(--text-muted)">支持同类型或不同类型的技术对比</span></div>';
     comparePanel.classList.add('visible');
@@ -204,18 +204,18 @@ compareBtn.addEventListener('click', () => {
 });
 
 document.getElementById('cancelCompare').addEventListener('click', () => {
-  compareMode = false;
+  isCompareActive = false;
   compareBtn.classList.remove('active');
-  compareModeEl.classList.remove('visible');
+  compareModeBanner.classList.remove('visible');
   comparePanel.classList.remove('visible');
   node.classed('comparing', false);
   link.classed('compared', false);
 });
 
 document.getElementById('closeCompare').addEventListener('click', () => {
-  compareMode = false;
+  isCompareActive = false;
   compareBtn.classList.remove('active');
-  compareModeEl.classList.remove('visible');
+  compareModeBanner.classList.remove('visible');
   comparePanel.classList.remove('visible');
   node.classed('comparing', false);
   link.classed('compared', false);
@@ -326,7 +326,7 @@ node.append('text').attr('class','node-label-zh').attr('dy',d=>d.size/2+26).text
 // Tooltip
 const tt=document.getElementById('tooltip');
 node.on('mouseover',function(e,d){
-if(compareMode){tt.style.display='block';tt.innerHTML='<h3>'+d.name+'</h3><div class="zh">'+(d.name_zh||'')+'</div><div class="meta">点击选择进行对比</div>';tt.style.left=(e.pageX+15)+'px';tt.style.top=(e.pageY-10)+'px';return}
+if(isCompareActive){tt.style.display='block';tt.innerHTML='<h3>'+d.name+'</h3><div class="zh">'+(d.name_zh||'')+'</div><div class="meta">点击选择进行对比</div>';tt.style.left=(e.pageX+15)+'px';tt.style.top=(e.pageY-10)+'px';return}
 tt.style.display='block';
 const cat=data.metadata.categories[d.category];
 const connCount=d.relationships?.length||0;
@@ -339,7 +339,7 @@ node.style('opacity',n=>cn.has(n.id)?1:.15);
 link.style('opacity',l=>{const s=l.source.id||l.source,t=l.target.id||l.target;return(s===d.id||t===d.id)?.8:.05})
 })
 .on('mousemove',e=>{tt.style.left=(e.pageX+15)+'px';tt.style.top=(e.pageY-10)+'px'})
-.on('mouseout',()=>{tt.style.display='none';if(!compareMode){node.style('opacity',1);link.style('opacity',.25)}});
+.on('mouseout',()=>{tt.style.display='none';if(!isCompareActive){node.style('opacity',1);link.style('opacity',.25)}});
 
 // Click for detail panel or compare
 const detailPanel=document.getElementById('detailPanel');
@@ -350,15 +350,15 @@ node.style('opacity',1);link.style('opacity',.25)});
 node.on('click',function(e,d){
 e.stopPropagation();
 
-if(compareMode){
-compareNodes.push(d);
+if(isCompareActive){
+compareSelection.push(d);
 d3.select(this).classed('comparing', true);
-if(compareNodes.length===2){
-showCompare(compareNodes[0], compareNodes[1]);
-compareMode = false;
+if(compareSelection.length===2){
+showCompare(compareSelection[0], compareSelection[1]);
+isCompareActive = false;
 compareBtn.classList.remove('active');
-compareModeEl.classList.remove('visible');
-compareNodes = [];
+compareModeBanner.classList.remove('visible');
+compareSelection = [];
 }
 return;
 }
@@ -456,7 +456,7 @@ link.classed('compared', l=>(l.source.id===a.id&&l.target.id===b.id)||(l.source.
 }
 
 svg.on('click',()=>{
-if(!compareMode){
+if(!isCompareActive){
 detailPanel.classList.remove('visible');
 node.style('opacity',1);link.style('opacity',.25);
 link.classed('highlighted',false)}});
