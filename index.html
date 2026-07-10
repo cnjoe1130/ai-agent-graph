@@ -347,12 +347,16 @@ document.getElementById('closeDetail').addEventListener('click',()=>{
 detailPanel.classList.remove('visible');
 node.style('opacity',1);link.style('opacity',.25)});
 
-node.on('click',function(e,d){
+// Use native click listeners for compatibility
+node.nodes().forEach(el => {
+el.style.cursor = 'pointer';
+el.addEventListener('click', function(e) {
 e.stopPropagation();
-
+const d = el.__data__;
+if (!d) return;
 if(isCompareActive){
 compareSelection.push(d);
-d3.select(this).classed('comparing', true);
+d3.select(el).classed('comparing', true);
 if(compareSelection.length===2){
 showCompare(compareSelection[0], compareSelection[1]);
 isCompareActive = false;
@@ -362,10 +366,8 @@ compareSelection = [];
 }
 return;
 }
-
 const cat=data.metadata.categories[d.category];
 const connCount=d.relationships?.length||0;
-
 document.getElementById('detailName').textContent=d.name;
 document.getElementById('detailNameZh').textContent=d.name_zh||'';
 const catEl=document.getElementById('detailCat');
@@ -374,36 +376,21 @@ catEl.style.background=`${cat?.color||'#666'}20`;
 catEl.style.color=cat?.color||'#fff';
 document.getElementById('detailDesc').textContent=d.description_zh||d.description||'暂无描述';
 document.getElementById('detailConnections').textContent=connCount;
-
-// Related nodes
 const relatedEl=document.getElementById('detailRelated');
 relatedEl.innerHTML='';
 const related=new Set();
-links.forEach(l=>{
-const s=l.source.id||l.source,t=l.target.id||l.target;
-if(s===d.id)related.add(t);
-if(t===d.id)related.add(s)});
-related.forEach(id=>{
-const n=nodes.find(x=>x.id===id);
-if(n){
-const tag=document.createElement('span');
-tag.className='detail-related-tag';
-tag.textContent=n.name_zh||n.name;
-tag.addEventListener('click',()=>{
-const found=node.data().find(x=>x.id===id);
-if(found)showDetail(found)});
-relatedEl.appendChild(tag)}});
-
-// Highlight connections
+links.forEach(l=>{const s=l.source.id||l.source,t=l.target.id||l.target;if(s===d.id)related.add(t);if(t===d.id)related.add(s)});
+related.forEach(id=>{const n=nodes.find(x=>x.id===id);if(n){const tag=document.createElement('span');tag.className='detail-related-tag';tag.textContent=n.name_zh||n.name;tag.addEventListener('click',()=>{const found=node.data().find(x=>x.id===id);if(found)handleNodeClick(found, node.nodes().find(nn=>nn.__data__?.id===id))});relatedEl.appendChild(tag)}});
 const cn=new Set();cn.add(d.id);
 links.forEach(l=>{const s=l.source.id||l.source,t=l.target.id||l.target;if(s===d.id)cn.add(t);if(t===d.id)cn.add(s)});
 node.style('opacity',n=>cn.has(n.id)?1:.15);
 link.classed('highlighted',l=>(l.source.id===d.id||l.target.id===d.id));
-
-detailPanel.classList.add('visible')});
+detailPanel.classList.add('visible');
+})});
 
 function showDetail(d){
-node.dispatch('click').filter(n=>n.id===d.id).node()}
+const el = node.nodes().find(n => n.__data__?.id === d.id);
+if (el) el.click();}
 
 function showCompare(a, b){
 const catA = data.metadata.categories[a.category];
